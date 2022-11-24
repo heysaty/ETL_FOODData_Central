@@ -8,8 +8,8 @@ from api_connection import URL
 
 
 def search_food(food_item):
+    print(food_item.upper(),'\n\n')
     url = URL + food_item
-    print(url)
 
     get_response = requests.get(url)
 
