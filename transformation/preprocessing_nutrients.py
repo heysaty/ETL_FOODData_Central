@@ -6,7 +6,6 @@ from extraction import search_food
 from transformation.nutrients import get_nutrients_name
 
 
-
 def get_nutrients(food_item):
     api_response = search_food.search_food(food_item)
 
@@ -15,16 +14,19 @@ def get_nutrients(food_item):
             # pprint(api_response['foods'][1]['foodNutrients'])
 
             nutrients_json = api_response['foods'][1]['foodNutrients']
+            nutrients_dict={}
             for item in nutrients_json:
                 if item['nutrientName'] in get_nutrients_name():
                     # pprint(item)
-                    print(item['nutrientName'], ' = ', str(item['value']), ' ', item['unitName'])
+                    # print([item['nutrientName'], str
+                    # (item['value']) + ' ' + item['unitName']])
+                    nutrients_dict[item['nutrientName']] = str(item['value']) + ' ' + item['unitName']
                     # print('\n\n----------------------------------------------------------------------')
-
+            return nutrients_dict
 
         else:
             print('NO Such Food Items !!!')
+            return None
     except:
         print('API Connection Error !!!')
-
-
+        return None
