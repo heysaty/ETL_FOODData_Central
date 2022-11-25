@@ -23,37 +23,35 @@ def create_table_execution():
             continue
 
 
-# create_table_execution()
-
 
 def insert_data(fooditem):
     # create_table_execution()
 
-    # try:
-    nutrients_dict, food_description = preprocessing_nutrients.get_nutrients(fooditem)
-    # food_description= food_description.replace(''', '')
-    cur = conn.cursor()
-    print(nutrients_dict)
-    cur.execute(insert_nutrients_query(nutrients_dict))
-    conn.commit()
-    # cur.close()
-    #
-    #
-    # cur = conn.cursor()
-    cur.execute('select id from nutrients order by id desc')
-    id = cur.fetchall()
-    print(id[0][0])
-    nutrients_id = int(id[0][0])
-    conn.commit()
-    # cur.close()
-    #
-    #
-    # cur = conn.cursor()
-    cur.execute(insert_fooditem_query(fooditem, food_description, nutrients_id))
-    conn.commit()
-    cur.close()
-# except:
-#     print('================================',fooditem)
+    try:
+        nutrients_dict, food_description = preprocessing_nutrients.get_nutrients(fooditem)
+        # food_description= food_description.replace(''', '')
+        cur = conn.cursor()
+        # print(nutrients_dict)
+        cur.execute(insert_nutrients_query(nutrients_dict))
+        conn.commit()
+        # cur.close()
+        #
+        #
+        # cur = conn.cursor()
+        cur.execute('select id from nutrients order by id desc')
+        id = cur.fetchall()
+        # print(id[0][0])
+        nutrients_id = int(id[0][0])
+        conn.commit()
+        # cur.close()
+        #
+        #
+        # cur = conn.cursor()
+        cur.execute(insert_fooditem_query(fooditem, food_description, nutrients_id))
+        conn.commit()
+        cur.close()
+    except:
+        print("API Connection error !!!")
 
 
 
