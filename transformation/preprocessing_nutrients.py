@@ -14,15 +14,19 @@ def get_nutrients(food_item):
             # pprint(api_response['foods'][1]['foodNutrients'])
 
             nutrients_json = api_response['foods'][1]['foodNutrients']
-            nutrients_dict={}
+            food_description = api_response['foods'][1]["description"]
+            nutrients_dict = {}
+
             for item in nutrients_json:
                 if item['nutrientName'] in get_nutrients_name():
-                    # pprint(item)
-                    # print([item['nutrientName'], str
-                    # (item['value']) + ' ' + item['unitName']])
-                    nutrients_dict[item['nutrientName']] = str(item['value']) + ' ' + item['unitName']
-                    # print('\n\n----------------------------------------------------------------------')
-            return nutrients_dict
+                    nutrients_dict[item['nutrientName']] = str(item['value']) + ' ' + item['unitName'].lower()
+
+            for item in get_nutrients_name():
+                if item not in nutrients_dict.keys():
+                    # print(item)
+                    nutrients_dict[item] = None
+            # print(nutrients_dict, food_description)
+            return nutrients_dict, food_description
 
         else:
             print('NO Such Food Items !!!')
