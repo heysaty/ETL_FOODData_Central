@@ -1,6 +1,9 @@
 def insert_fooditem_query(fooditem, description, nutrients_id):
+    # description= description.replace(''','')
+    description=description.replace("'","")
     query = f"""insert into fooditems(food_item,description,nutrients_id)
             values('{fooditem}','{description}','{nutrients_id}');"""
+    # print(query)
     return query
 
 
