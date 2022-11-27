@@ -1,42 +1,41 @@
 import sys
+
 sys.path.insert(1, '//Users/apple/code/ETL_FOODData_Central')
 from loading.postgres_connection import conn
-from loading import create_table
+from loading.create_table import tables
 from transformation import preprocessing_nutrients
 from loading.insert_data import insert_fooditem_query, insert_nutrients_query
 
-queries = [create_table.create_minerals(),create_table.create_vitamins(),create_table.create_fats(),
-           create_table.create_macronutrients(),create_table.create_micronutrients(),
-           create_table.create_nutrientslog(),create_table.create_fooditems(), 'select * from fooditems;']
+queries = [tables.create_minerals(), tables.create_vitamins(), tables.create_fats(),
+           tables.create_macronutrients(), tables.create_micronutrients(),
+           tables.create_nutrientslog(), tables.create_fooditems(), tables.recipes()]
 
 
 # nutrients_dict, food_description = preprocessing_nutrients.get_nutrients()
 
 def create_table_execution():
     for query in queries:
-        print(query)
-        # #     try:
+
+
         cur = conn.cursor()
         cur.execute(query)
+        print(query)
         conn.commit()
         cur.close()
-            # conn.close()
-        # except:
-        #     continue
+        # conn.close()
 
 
 create_table_execution()
-conn.close()
+# conn.close()
 
 
 def insert_data(fooditem):
     # create_table_execution()
 
     try:
-        nutrients_dict, food_description = preprocessing_nutrients.get_nutrients(fooditem)
+        vitamins_dict, fats_dict, macros_dict, minerals_dict, food_description = preprocessing_nutrients.get_nutrients()
         # food_description= food_description.replace(''', '')
         cur = conn.cursor()
-        # print(nutrients_dict)
         cur.execute(insert_nutrients_query(nutrients_dict))
         conn.commit()
         # cur.close()
@@ -57,6 +56,3 @@ def insert_data(fooditem):
         cur.close()
     except:
         print("API Connection error !!!")
-
-
-
