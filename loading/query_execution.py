@@ -15,87 +15,80 @@ class run_query:
     @staticmethod
     def create_table_execution():
         for query in queries:
-            cur = conn.cursor()
-            cur.execute(query)
+            cursor = conn.cursor()
+            cursor.execute(query)
 
             conn.commit()
-            cur.close()
+            cursor.close()
+
+    @staticmethod
+    def find_id(table):
+        query = """
+                select id from {} order by id desc
+                """.format(table)
+
+        cursor = conn.cursor()
+        cursor.execute(query)
+        table_id = cursor.fetchall()
+        table_id = int(table_id[0][0])
+
+        return table_id
+
+    @staticmethod
+    def execute_query(query):
+        cursor = conn.cursor()
+        cursor.execute(query)
+        conn.commit()
+    @staticmethod
+    def food_repetition_checker(food):
+        cursor = conn.cursor()
+        cursor.execute(f"select * from fooditems where food_item = '{food}'")
+        flag = cursor.fetchone()
+        if flag is None:
+            return True
+        else:
+            return False
+
+
 
     @staticmethod
     def insert_data(fooditem):
 
         try:
+            if run_query.food_repetition_checker(fooditem) is True:
+                vitamins_dict, fats_dict, macros_dict, minerals_dict, food_description = preprocessing_nutrients.get_nutrients(
+                    fooditem)
 
-            vitamins_dict, fats_dict, macros_dict, minerals_dict, food_description = preprocessing_nutrients.get_nutrients(
-                fooditem)
+                run_query.execute_query(insert_query.insert_minerals(minerals_dict))
+                run_query.execute_query(insert_query.insert_fats(fats_dict))
 
-            cursor = conn.cursor()
-            cursor.execute(insert_query.insert_minerals(minerals_dict))
-            conn.commit()
+                fat_id = run_query.find_id('fats')
 
-            cursor = conn.cursor()
-            cursor.execute(insert_query.insert_fats(fats_dict))
-            conn.commit()
+                run_query.execute_query(insert_query.insert_vitamins(vitamins_dict))
 
-            cursor.execute('select id from fats order by id desc')
-            fat_id = cursor.fetchall()
-            fat_id = int(fat_id[0][0])
-            conn.commit()
+                run_query.execute_query(insert_query.insert_macronutrients(macros_dict, fat_id))
 
-            cursor = conn.cursor()
-            cursor.execute(insert_query.insert_vitamins(vitamins_dict))
-            conn.commit()
+                mineral_id = run_query.find_id('minerals')
 
-            cursor = conn.cursor()
-            cursor.execute(insert_query.insert_macronutrients(macros_dict, fat_id))
-            conn.commit()
+                vitamins_id = run_query.find_id('vitamins')
 
-            cursor.execute('select id from minerals order by id desc')
-            mineral_id = cursor.fetchall()
-            mineral_id = int(mineral_id[0][0])
-            conn.commit()
+                run_query.execute_query(insert_query.insert_micronutrients(mineral_id, vitamins_id))
 
-            cursor.execute('select id from vitamins order by id desc')
-            vitamins_id = cursor.fetchall()
-            vitamins_id = int(vitamins_id[0][0])
-            conn.commit()
+                micros_id = run_query.find_id('micro_nutrients')
 
-            cursor = conn.cursor()
-            cursor.execute(insert_query.insert_micronutrients(mineral_id, vitamins_id))
-            conn.commit()
+                macros_id = run_query.find_id('macro_nutrients')
 
-            cursor.execute('select id from micro_nutrients order by id desc')
-            micros_id = cursor.fetchall()
-            micros_id = int(micros_id[0][0])
-            conn.commit()
+                run_query.execute_query(insert_query.insert_nutrientslog(macros_id, micros_id))
 
-            cursor.execute('select id from macro_nutrients order by id desc')
-            macros_id = cursor.fetchall()
-            macros_id = int(macros_id[0][0])
-            conn.commit()
+                log_id = run_query.find_id('nutrients_log')
 
-            cursor = conn.cursor()
-            cursor.execute(insert_query.insert_nutrientslog(macros_id, micros_id))
-            conn.commit()
+                run_query.execute_query(insert_query.insert_fooditem_query(fooditem, food_description, log_id))
 
-            cursor.execute('select id from nutrients_log order by id desc')
-            log_id = cursor.fetchall()
-            log_id = int(log_id[0][0])
-            conn.commit()
+                food_id = run_query.find_id('fooditems')
 
-            cursor = conn.cursor()
-            cursor.execute(insert_query.insert_fooditem_query(fooditem, food_description, log_id))
-            conn.commit()
+                run_query.execute_query(insert_query.insert_recipes(scraper(fooditem), food_id))
+            else:
+                print('Food Already Exists in Database !!!')
 
-            cursor.execute('select id from fooditems order by id desc')
-            food_id = cursor.fetchall()
-            food_id = int(food_id[0][0])
-            conn.commit()
-
-            cursor = conn.cursor()
-            cursor.execute(insert_query.insert_recipes(scraper(fooditem), food_id))
-            conn.commit()
-
-            cursor.close()
         except:
             print('Database Connection Error !!!')

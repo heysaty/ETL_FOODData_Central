@@ -3,13 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="f4a6e5f4-d000-4112-8ad8-a1f07005d022" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/extraction/search_food.py" beforeDir="false" afterPath="$PROJECT_DIR$/extraction/search_food.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/foods.csv" beforeDir="false" afterPath="$PROJECT_DIR$/foods.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/loading/create_table.py" beforeDir="false" afterPath="$PROJECT_DIR$/loading/create_table.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/loading/query_execution.py" beforeDir="false" afterPath="$PROJECT_DIR$/loading/query_execution.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/pipeline.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/transformation/nutrients.py" beforeDir="false" afterPath="$PROJECT_DIR$/transformation/nutrients.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/transformation/preprocessing_nutrients.py" beforeDir="false" afterPath="$PROJECT_DIR$/transformation/preprocessing_nutrients.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scraper/recipe_scraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/scraper/recipe_scraper.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
