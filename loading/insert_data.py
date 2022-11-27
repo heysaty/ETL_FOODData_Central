@@ -3,7 +3,7 @@ class insert_query:
     def insert_fooditem_query(fooditem, description, nutrientslog_id):
         description = description.replace("'", "")
 
-        query = f"""insert into fooditems(food_item,description,nutrients_id)
+        query = f"""insert into fooditems(food_item,description,nutrients_log_id)
                         values('{fooditem}',
                                '{description}',
                                '{nutrientslog_id}');"""
