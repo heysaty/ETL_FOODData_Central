@@ -13,7 +13,6 @@ def search_food(food_item):
 
     get_response = requests.get(url)
 
-    # extracting data in json format
     data = get_response.json()
 
     return data

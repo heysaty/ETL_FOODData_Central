@@ -59,5 +59,3 @@ def get_nutrients(food_item):
         return None
 
 
-# vitamins_dict, fats_dict, macros_dict, minerals_dict, food_description = get_nutrients('egg')
-# print(vitamins_dict,'\n', fats_dict,'\n', macros_dict,'\n', minerals_dict,'\n', food_description)

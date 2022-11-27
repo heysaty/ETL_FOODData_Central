@@ -81,28 +81,10 @@ class tables:
     def recipes():
         query = """CREATE TABLE recipes(
                            id SERIAL PRIMARY KEY ,
-                           recipe VARCHAR(300),
+                           recipe TEXT,
                            food_id INT REFERENCES fooditems(id)
 
                        );"""
         return query
 
 
-    # def create_nutrients():
-    #     query = """CREATE TABLE nutrients(
-    #         id SERIAL PRIMARY KEY ,
-    #         protein VARCHAR(50),
-    #         fiber VARCHAR(50),
-    #         iron VARCHAR(50),
-    #         cholesterol VARCHAR(50),
-    #         lipid VARCHAR(50),
-    #         carbohydrate VARCHAR(50),
-    #         energy VARCHAR(50),
-    #         water VARCHAR(50),
-    #         calcium VARCHAR(50),
-    #         caffeine VARCHAR(50),
-    #         sugar VARCHAR(50)
-    #
-    #     );"""
-    #
-    #     return query
