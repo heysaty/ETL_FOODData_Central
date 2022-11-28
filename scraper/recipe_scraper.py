@@ -18,7 +18,8 @@ def scraper(fooditem):
 
     recipe_content = recipe_soup.find_all('p')
     recipe = ''
-    for line in recipe_content[-7:-2]:
+
+    for line in recipe_content[-7:-1]:
         try:
             line = str(line).replace('<p>', '')
             line = line.replace('</p>', '')
@@ -26,4 +27,6 @@ def scraper(fooditem):
 
         except:
             pass
-    return recipe.replace("'", '')
+    recipe = recipe.replace("'", '')
+    recipe = recipe.replace("<br/>", '')
+    return recipe
