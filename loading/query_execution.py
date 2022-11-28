@@ -3,7 +3,7 @@ import sys
 sys.path.insert(1, '//Users/apple/code/ETL_FOODData_Central')
 from loading.postgres_connection import conn
 from loading.create_table import tables
-from transformation import preprocessing_nutrients
+from transformation.preprocessing_nutrients import pre_processing
 from loading.insert_data import insert_query
 from scraper.recipe_scraper import scraper
 
@@ -56,7 +56,7 @@ class run_query:
 
         try:
             if run_query.food_repetition_checker(fooditem) is True:
-                vitamins_dict, fats_dict, macros_dict, minerals_dict, food_description = preprocessing_nutrients.get_nutrients(
+                vitamins_dict, fats_dict, macros_dict, minerals_dict, food_description = pre_processing.get_nutrients(
                     fooditem)
 
                 run_query.execute_query(insert_query.insert_minerals(minerals_dict))
@@ -65,17 +65,14 @@ class run_query:
                 fat_id = run_query.find_id('fats')
 
                 run_query.execute_query(insert_query.insert_vitamins(vitamins_dict))
-
                 run_query.execute_query(insert_query.insert_macronutrients(macros_dict, fat_id))
 
                 mineral_id = run_query.find_id('minerals')
-
                 vitamins_id = run_query.find_id('vitamins')
 
                 run_query.execute_query(insert_query.insert_micronutrients(mineral_id, vitamins_id))
 
                 micros_id = run_query.find_id('micro_nutrients')
-
                 macros_id = run_query.find_id('macro_nutrients')
 
                 run_query.execute_query(insert_query.insert_nutrientslog(macros_id, micros_id))
