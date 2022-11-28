@@ -7,10 +7,14 @@ start = time.time()
 df = pd.read_csv('foods.csv')
 
 
-def run_pipeline():
-    for food in df['food']:
-        run_query.insert_data(food)
+def run_pipeline(flag):
+    if flag == 'scraper':
+        food = input("Enter food item :")
+        run_query.insert_recipe(food)
+    else:
+        for food in df['food']:
+            run_query.insert_data(food)
 
-    conn.close()
+        conn.close()
 
     print(time.time() - start)

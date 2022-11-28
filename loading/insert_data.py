@@ -75,4 +75,12 @@ class insert_query:
 
         return query
 
+    @staticmethod
+    def insert_food_recipes(food, recipe):
+        query = f"""insert into food_recipes(food,recipe)
+                          values('{food}',
+                                 '{recipe}');"""
+
+        return query
+
 
