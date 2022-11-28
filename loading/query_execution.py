@@ -7,7 +7,7 @@ from transformation.preprocessing_nutrients import pre_processing
 from loading.insert_data import insert_query
 from scraper.recipe_scraper import scraper
 
-queries = [tables.recipes()]
+queries = [tables.food_recipes()]
 
 
 class run_query:
@@ -39,6 +39,7 @@ class run_query:
         cursor = conn.cursor()
         cursor.execute(query)
         conn.commit()
+
     @staticmethod
     def food_repetition_checker(food):
         cursor = conn.cursor()
@@ -49,7 +50,15 @@ class run_query:
         else:
             return False
 
-
+    @staticmethod
+    def insert_recipe(fooditem):
+        cursor = conn.cursor()
+        cursor.execute(f"select * from food_recipes where food = '{fooditem}'")
+        flag = cursor.fetchone()
+        if flag is None:
+            run_query.execute_query(insert_query.insert_food_recipes(fooditem, scraper(fooditem)))
+        else:
+            print('Recipe already exists in db !!!')
 
     @staticmethod
     def insert_data(fooditem):
@@ -81,11 +90,16 @@ class run_query:
 
                 run_query.execute_query(insert_query.insert_fooditem_query(fooditem, food_description, log_id))
 
-                food_id = run_query.find_id('fooditems')
+                run_query.insert_recipe(fooditem)
 
-                run_query.execute_query(insert_query.insert_recipes(scraper(fooditem), food_id))
+                # food_id = run_query.find_id('fooditems')
+
+                # run_query.execute_query(insert_query.insert_recipes(scraper(fooditem), food_id))
             else:
                 print('Food Already Exists in Database !!!')
 
         except:
             print('Database Connection Error !!!')
+
+
+

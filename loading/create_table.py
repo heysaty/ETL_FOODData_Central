@@ -87,4 +87,14 @@ class tables:
                        );"""
         return query
 
+    @staticmethod
+    def food_recipes():
+        query = """CREATE TABLE food_recipes(
+                           id SERIAL PRIMARY KEY ,
+                           food VARCHAR(100),
+                           recipe TEXT
+                        
+                       );"""
+        return query
+
 
